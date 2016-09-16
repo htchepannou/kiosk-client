@@ -15,7 +15,7 @@ public class DefaultKioskClient implements KioskClient {
     private final String baseUrl;
     private final RestTemplate restTemplate;
     private final URI feedUri;
-    private final URI articleUri;
+    private final URI publishArticleUri;
 
     public DefaultKioskClient(final String baseUrl, final RestTemplate restTemplate) {
         try {
@@ -23,7 +23,7 @@ public class DefaultKioskClient implements KioskClient {
             this.restTemplate = restTemplate;
 
             feedUri = new URI(baseUrl + "/kiosk/v1/feeds");
-            articleUri = new URI(baseUrl + "/kiosk/v1/articles");
+            publishArticleUri = new URI(baseUrl + "/kiosk/v1/articles/publish");
         } catch (final URISyntaxException ex) {
             throw new IllegalStateException("Invalid URL", ex);
         }
@@ -41,7 +41,7 @@ public class DefaultKioskClient implements KioskClient {
     @Override
     public PublishResponse publishArticle(final PublishRequest request) {
         try {
-            return restTemplate.postForEntity(articleUri, request, PublishResponse.class).getBody();
+            return restTemplate.postForEntity(publishArticleUri, request, PublishResponse.class).getBody();
         } catch (RestClientException ex) {
             throw new KioskClientException(ex);
         }

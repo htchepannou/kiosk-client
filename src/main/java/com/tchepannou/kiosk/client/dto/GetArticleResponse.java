@@ -9,4 +9,12 @@ public class GetArticleResponse extends AbstractResponse {
     public List<ArticleDto> getArticles() {
         return articles;
     }
+
+    public void setArticles(final List<ArticleDto> articles) {
+        this.articles = articles;
+    }
+
+    public int getSize() {
+        return articles.size();
+    }
 }

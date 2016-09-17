@@ -1,6 +1,6 @@
 package com.tchepannou.kiosk.client.dto;
 
-public class ProcessRequest {
+public abstract class AbstractArticleResponse extends AbstractResponse {
     private String articleId;
 
     public String getArticleId() {

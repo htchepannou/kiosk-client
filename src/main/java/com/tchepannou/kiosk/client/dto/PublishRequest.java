@@ -2,7 +2,7 @@ package com.tchepannou.kiosk.client.dto;
 
 public class PublishRequest {
     private long feedId;
-    private ArticleDto article;
+    private ArticleDataDto article;
 
     public long getFeedId() {
         return feedId;
@@ -12,11 +12,11 @@ public class PublishRequest {
         this.feedId = feedId;
     }
 
-    public ArticleDto getArticle() {
+    public ArticleDataDto getArticle() {
         return article;
     }
 
-    public void setArticle(final ArticleDto article) {
+    public void setArticle(final ArticleDataDto article) {
         this.article = article;
     }
 }

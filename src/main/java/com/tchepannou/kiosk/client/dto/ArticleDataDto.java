@@ -1,6 +1,6 @@
 package com.tchepannou.kiosk.client.dto;
 
-public class ArticleDto {
+public class ArticleDataDto {
     private String url;
     private String title;
     private String slug;

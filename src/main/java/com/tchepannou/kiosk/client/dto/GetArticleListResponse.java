@@ -3,7 +3,7 @@ package com.tchepannou.kiosk.client.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetArticleListResponse {
+public class GetArticleListResponse extends AbstractResponse {
     private List<ArticleDto> articles = new ArrayList<>();
 
     public int getSize() {

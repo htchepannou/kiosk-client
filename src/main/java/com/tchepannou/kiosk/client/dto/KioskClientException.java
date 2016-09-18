@@ -14,7 +14,7 @@ public class KioskClientException extends RuntimeException {
 
         if (cause instanceof HttpClientErrorException) {
             httpStatus = ((HttpClientErrorException) cause).getRawStatusCode();
-            extractERror((HttpClientErrorException)cause);
+            extractError((HttpClientErrorException) cause);
         }
     }
 
@@ -26,11 +26,13 @@ public class KioskClientException extends RuntimeException {
         return error;
     }
 
-    private void extractERror(final HttpClientErrorException ex){
+    private void extractError(final HttpClientErrorException ex){
         final Map<String, Object> body = (Map)new Gson().fromJson(ex.getResponseBodyAsString(), Object.class);
         if (body.containsKey("error")){
             Map<String, String> errorMap = (Map)body.get(body.get("error"));
-            this.error = new ErrorDto(errorMap.get("code"), errorMap.get("message"));
+            if (errorMap != null) {
+                this.error = new ErrorDto(errorMap.get("code"), errorMap.get("message"));
+            }
         }
     }
 }

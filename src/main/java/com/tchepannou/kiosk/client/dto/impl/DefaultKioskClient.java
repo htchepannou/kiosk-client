@@ -1,6 +1,8 @@
 package com.tchepannou.kiosk.client.dto.impl;
 
 import com.tchepannou.kiosk.client.dto.FeedListResponse;
+import com.tchepannou.kiosk.client.dto.GetArticleListResponse;
+import com.tchepannou.kiosk.client.dto.GetArticleResponse;
 import com.tchepannou.kiosk.client.dto.KioskClient;
 import com.tchepannou.kiosk.client.dto.KioskClientException;
 import com.tchepannou.kiosk.client.dto.PublishRequest;
@@ -12,28 +14,42 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class DefaultKioskClient implements KioskClient {
-    private final String baseUrl;
+    private static final String FEED_PATH = "/kiosk/v1/feeds";
+    private static final String ARTICLE_PATH = "/kiosk/v1/articles";
     private final RestTemplate restTemplate;
-    private final URI feedUri;
-    private final URI publishArticleUri;
+    private final String baseUrl;
 
     public DefaultKioskClient(final String baseUrl, final RestTemplate restTemplate) {
-        try {
-            this.baseUrl = baseUrl;
-            this.restTemplate = restTemplate;
-
-            feedUri = new URI(baseUrl + "/kiosk/v1/feeds");
-            publishArticleUri = new URI(baseUrl + "/kiosk/v1/articles/publish");
-        } catch (final URISyntaxException ex) {
-            throw new IllegalStateException("Invalid URL", ex);
-        }
+        this.restTemplate = restTemplate;
+        this.baseUrl = baseUrl;
     }
 
     @Override
     public FeedListResponse getFeeds() {
         try {
-            return restTemplate.getForObject(feedUri, FeedListResponse.class);
-        } catch (RestClientException ex) {
+            final URI uri = new URI(baseUrl + FEED_PATH);
+            return restTemplate.getForObject(uri, FeedListResponse.class);
+        } catch (final RestClientException | URISyntaxException ex) {
+            throw new KioskClientException(ex);
+        }
+    }
+
+    @Override
+    public GetArticleResponse getArticle(final String articleId) {
+        try {
+            final URI uri = new URI(baseUrl + ARTICLE_PATH + "/" + articleId);
+            return restTemplate.getForObject(uri, GetArticleResponse.class);
+        } catch (final RestClientException | URISyntaxException ex) {
+            throw new KioskClientException(ex);
+        }
+    }
+
+    @Override
+    public GetArticleListResponse getArticlesByStatus(final String status) {
+        try {
+            final URI uri = new URI(baseUrl + ARTICLE_PATH + "/status/" + status);
+            return restTemplate.getForObject(uri, GetArticleListResponse.class);
+        } catch (final RestClientException | URISyntaxException ex) {
             throw new KioskClientException(ex);
         }
     }
@@ -41,8 +57,9 @@ public class DefaultKioskClient implements KioskClient {
     @Override
     public PublishResponse publishArticle(final PublishRequest request) {
         try {
-            return restTemplate.postForEntity(publishArticleUri, request, PublishResponse.class).getBody();
-        } catch (RestClientException ex) {
+            final URI uri = new URI(baseUrl + ARTICLE_PATH + "/publish");
+            return restTemplate.postForEntity(uri, request, PublishResponse.class).getBody();
+        } catch (final RestClientException | URISyntaxException ex) {
             throw new KioskClientException(ex);
         }
     }

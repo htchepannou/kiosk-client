@@ -1,6 +1,6 @@
 package com.tchepannou.kiosk.client.dto.impl;
 
-import com.tchepannou.kiosk.client.dto.FeedListResponse;
+import com.tchepannou.kiosk.client.dto.GetFeedListResponse;
 import com.tchepannou.kiosk.client.dto.GetArticleListResponse;
 import com.tchepannou.kiosk.client.dto.GetArticleResponse;
 import com.tchepannou.kiosk.client.dto.KioskClient;
@@ -25,10 +25,10 @@ public class DefaultKioskClient implements KioskClient {
     }
 
     @Override
-    public FeedListResponse getFeeds() {
+    public GetFeedListResponse getFeeds() {
         try {
             final URI uri = new URI(baseUrl + FEED_PATH);
-            return restTemplate.getForObject(uri, FeedListResponse.class);
+            return restTemplate.getForObject(uri, GetFeedListResponse.class);
         } catch (final RestClientException | URISyntaxException ex) {
             throw new KioskClientException(ex);
         }

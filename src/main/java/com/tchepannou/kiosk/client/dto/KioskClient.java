@@ -1,7 +1,7 @@
 package com.tchepannou.kiosk.client.dto;
 
 public interface KioskClient {
-    FeedListResponse getFeeds();
+    GetFeedListResponse getFeeds();
 
     GetArticleResponse getArticle (final String articleId);
 

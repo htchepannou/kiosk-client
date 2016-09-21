@@ -64,4 +64,22 @@ public class WebsiteDto {
     public void setSlugCssSelector(final String slugCssSelector) {
         this.slugCssSelector = slugCssSelector;
     }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof WebsiteDto))
+            return false;
+
+        final WebsiteDto that = (WebsiteDto) o;
+
+        return getId() == that.getId();
+
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (getId() ^ (getId() >>> 32));
+    }
 }

@@ -4,4 +4,5 @@ public interface ErrorConstants {
     String ALREADY_PUBLISHED = "already_published";
     String ARTICLE_NOT_FOUND = "article_not_found";
     String CONTENT_NOT_FOUND = "content_not_found";
+    String FEED_INVALID = "feed_invalid";
 }

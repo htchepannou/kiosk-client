@@ -1,8 +1,9 @@
 package com.tchepannou.kiosk.client.dto.impl;
 
-import com.tchepannou.kiosk.client.dto.FeedListResponse;
+import com.tchepannou.kiosk.client.dto.GetFeedListResponse;
 import com.tchepannou.kiosk.client.dto.GetArticleListResponse;
 import com.tchepannou.kiosk.client.dto.GetArticleResponse;
+import com.tchepannou.kiosk.client.dto.GetWebsiteListResponse;
 import com.tchepannou.kiosk.client.dto.KioskClient;
 import com.tchepannou.kiosk.client.dto.KioskClientException;
 import com.tchepannou.kiosk.client.dto.PublishRequest;
@@ -14,8 +15,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class DefaultKioskClient implements KioskClient {
-    private static final String FEED_PATH = "/kiosk/v1/feeds";
     private static final String ARTICLE_PATH = "/kiosk/v1/articles";
+    private static final String FEED_PATH = "/kiosk/v1/feeds";
+    private static final String WEBSITE_PATH = "/kiosk/v1/websites";
+
     private final RestTemplate restTemplate;
     private final String baseUrl;
 
@@ -25,10 +28,20 @@ public class DefaultKioskClient implements KioskClient {
     }
 
     @Override
-    public FeedListResponse getFeeds() {
+    public GetFeedListResponse getFeeds() {
         try {
             final URI uri = new URI(baseUrl + FEED_PATH);
-            return restTemplate.getForObject(uri, FeedListResponse.class);
+            return restTemplate.getForObject(uri, GetFeedListResponse.class);
+        } catch (final RestClientException | URISyntaxException ex) {
+            throw new KioskClientException(ex);
+        }
+    }
+
+    @Override
+    public GetWebsiteListResponse getWebsites () {
+        try {
+            final URI uri = new URI(baseUrl + WEBSITE_PATH);
+            return restTemplate.getForObject(uri, GetWebsiteListResponse.class);
         } catch (final RestClientException | URISyntaxException ex) {
             throw new KioskClientException(ex);
         }

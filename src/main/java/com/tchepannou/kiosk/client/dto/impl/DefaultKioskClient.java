@@ -70,7 +70,7 @@ public class DefaultKioskClient implements KioskClient {
     @Override
     public PublishResponse publishArticle(final PublishRequest request) {
         try {
-            final URI uri = new URI(baseUrl + ARTICLE_PATH );
+            final URI uri = new URI(baseUrl + ARTICLE_PATH);
             return restTemplate.postForEntity(uri, request, PublishResponse.class).getBody();
         } catch (final RestClientException | URISyntaxException ex) {
             throw new KioskClientException(ex);

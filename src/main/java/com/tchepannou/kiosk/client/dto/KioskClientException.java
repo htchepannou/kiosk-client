@@ -13,7 +13,7 @@ public class KioskClientException extends RuntimeException {
         super(cause);
 
         if (cause instanceof HttpClientErrorException) {
-            httpStatus = ((HttpClientErrorException) cause).getRawStatusCode();
+            httpStatus = ((HttpClientErrorException) cause).getStatusCode().value();
             extractError((HttpClientErrorException) cause);
         }
     }

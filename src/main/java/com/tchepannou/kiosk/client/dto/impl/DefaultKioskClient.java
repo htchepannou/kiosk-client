@@ -1,13 +1,15 @@
 package com.tchepannou.kiosk.client.dto.impl;
 
-import com.tchepannou.kiosk.client.dto.GetFeedListResponse;
 import com.tchepannou.kiosk.client.dto.GetArticleListResponse;
 import com.tchepannou.kiosk.client.dto.GetArticleResponse;
+import com.tchepannou.kiosk.client.dto.GetFeedListResponse;
 import com.tchepannou.kiosk.client.dto.GetWebsiteListResponse;
 import com.tchepannou.kiosk.client.dto.KioskClient;
 import com.tchepannou.kiosk.client.dto.KioskClientException;
 import com.tchepannou.kiosk.client.dto.PublishRequest;
 import com.tchepannou.kiosk.client.dto.PublishResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -53,6 +55,24 @@ public class DefaultKioskClient implements KioskClient {
             final URI uri = new URI(baseUrl + ARTICLE_PATH + "/" + articleId);
             return restTemplate.getForObject(uri, GetArticleResponse.class);
         } catch (final RestClientException | URISyntaxException ex) {
+            throw new KioskClientException(ex);
+        }
+    }
+
+    @Override
+    public boolean isArticleUrlPublished(final String url) {
+        try {
+            final URI uri = new URI(String.format("%s%s/find?url=%s&includeContent=false", baseUrl, ARTICLE_PATH, url));
+            restTemplate.getForObject(uri, GetArticleResponse.class);
+            return true;
+        } catch (HttpStatusCodeException ex) {
+            if (HttpStatus.NOT_FOUND.equals(ex.getStatusCode())){
+                return false;
+            } else {
+                throw new KioskClientException(ex);
+            }
+        }
+        catch (URISyntaxException | RestClientException ex) {
             throw new KioskClientException(ex);
         }
     }

@@ -4,7 +4,7 @@ jdk:
   - oraclejdk8
 
 after_success:
-  - wget http://roboconf.net/resources/build/settings.xml
+  - wget mvn http://roboconf.net/resources/build/settings.xml
   - mvn clean deploy -q --settings settings.xml
 
 notifications:

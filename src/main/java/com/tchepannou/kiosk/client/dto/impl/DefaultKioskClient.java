@@ -4,6 +4,7 @@ import com.tchepannou.kiosk.client.dto.GetArticleListResponse;
 import com.tchepannou.kiosk.client.dto.GetArticleResponse;
 import com.tchepannou.kiosk.client.dto.GetFeedListResponse;
 import com.tchepannou.kiosk.client.dto.GetWebsiteListResponse;
+import com.tchepannou.kiosk.client.dto.GetWebsiteResponse;
 import com.tchepannou.kiosk.client.dto.KioskClient;
 import com.tchepannou.kiosk.client.dto.KioskClientException;
 import com.tchepannou.kiosk.client.dto.PublishRequest;
@@ -34,6 +35,15 @@ public class DefaultKioskClient implements KioskClient {
         try {
             final URI uri = new URI(baseUrl + FEED_PATH);
             return restTemplate.getForObject(uri, GetFeedListResponse.class);
+        } catch (final RestClientException | URISyntaxException ex) {
+            throw new KioskClientException(ex);
+        }
+    }
+
+    public GetWebsiteResponse getWebsite (final String id){
+        try {
+            final URI uri = new URI(baseUrl + WEBSITE_PATH + "/" + id);
+            return restTemplate.getForObject(uri, GetWebsiteResponse.class);
         } catch (final RestClientException | URISyntaxException ex) {
             throw new KioskClientException(ex);
         }

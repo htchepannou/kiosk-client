@@ -3,6 +3,7 @@ package com.tchepannou.kiosk.client.dto;
 public class ArticleDataDto {
     private String url;
     private String title;
+    private String displayTitle;
     private String slug;
     private String countryCode;
     private String languageCode;
@@ -63,5 +64,13 @@ public class ArticleDataDto {
 
     public void setContent(final String content) {
         this.content = content;
+    }
+
+    public String getDisplayTitle() {
+        return displayTitle;
+    }
+
+    public void setDisplayTitle(final String displayTitle) {
+        this.displayTitle = displayTitle;
     }
 }
